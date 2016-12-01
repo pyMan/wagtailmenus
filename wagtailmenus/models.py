@@ -18,7 +18,6 @@ from wagtail.wagtailadmin.forms import WagtailAdminModelForm
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, PageChooserPanel, MultiFieldPanel, InlinePanel)
 from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailsearch import index
 
 from wagtailmenus import app_settings
 from .managers import MenuItemManager
@@ -387,7 +386,7 @@ class FlatMenuAdminForm(WagtailAdminModelForm):
                 choices=app_settings.FLAT_MENUS_HANDLE_CHOICES)
 
 
-class FlatMenu(Menu, index.Indexed):
+class FlatMenu(Menu):
     site = models.ForeignKey(
         'wagtailcore.Site',
         verbose_name=_('site'),
@@ -491,12 +490,6 @@ class FlatMenu(Menu, index.Indexed):
             classname="collapsible collapsed",
         ),
     )
-    
-    search_fields = [
-        index.SearchField('title', partial_match = True),
-        index.SearchField('handle', partial_match = True),
-        index.SearchField('heading', partial_match = True),
-    ]
 
 
 class MainMenuItem(Orderable, MenuItem):
